@@ -56,7 +56,7 @@ variable "argocd_chart_version" {
 variable "argocd_hostname" {
   description = "Hostname for ArgoCD ingress"
   type        = string
-  default     = "argocd.chinmayto.com"
+  default     = "argocd.local"
 }
 
 

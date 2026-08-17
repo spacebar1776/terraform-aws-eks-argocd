@@ -1,12 +1,4 @@
 ####################################################################################
-### Route53 Hosted Zone
-####################################################################################
-data "aws_route53_zone" "main" {
-  name         = var.domain_name
-  private_zone = false
-}
-
-####################################################################################
 ### ArgoCD Namespace
 ####################################################################################
 resource "kubernetes_namespace" "argocd" {
@@ -75,21 +67,5 @@ resource "kubernetes_secret" "argocd_admin_password" {
   depends_on = [kubernetes_namespace.argocd]
 }
 
-####################################################################################
-### Route53 DNS Record for ArgoCD (pointing to NGINX Ingress NLB)
-####################################################################################
-resource "aws_route53_record" "argocd" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = var.argocd_subdomain
-  type    = "A"
-
-  alias {
-    name                   = data.kubernetes_service.nginx_ingress_controller.status.0.load_balancer.0.ingress.0.hostname
-    zone_id                = "Z26RNL4JYFTOTI" # NLB zone ID for us-east-1
-    evaluate_target_health = true
-  }
-
-  depends_on = [helm_release.argocd, data.kubernetes_service.nginx_ingress_controller]
-}
 
 

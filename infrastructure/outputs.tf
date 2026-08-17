@@ -53,38 +53,14 @@ output "argocd_service_info" {
 output "argocd_access_commands" {
   description = "Commands to access ArgoCD"
   value = {
-    dns_url              = "https://${var.argocd_subdomain}.${var.domain_name}"
     port_forward_command = "kubectl port-forward -n ${var.argocd_namespace} svc/argocd-server 8080:443"
     get_admin_password   = "kubectl -n ${var.argocd_namespace} get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
     get_loadbalancer_url = "N/A - Service type is ClusterIP"
-    web_ui_url           = "https://${var.argocd_subdomain}.${var.domain_name}"
     username             = "admin"
-    dns_record_status    = "kubectl get route53record argocd -o wide"
   }
 }
 
-output "argocd_dns_info" {
-  description = "ArgoCD DNS configuration information"
-  value = {
-    domain_name     = var.domain_name
-    subdomain       = var.argocd_subdomain
-    full_hostname   = "${var.argocd_subdomain}.${var.domain_name}"
-    hosted_zone_id  = data.aws_route53_zone.main.zone_id
-    dns_record_type = "A (Alias to LoadBalancer)"
-  }
-}
 
 ################################################################################
 # Node.js App DNS Outputs
 ################################################################################
-output "nodejs_app_dns_info" {
-  description = "Node.js application DNS configuration information"
-  value = {
-    domain_name     = var.domain_name
-    subdomain       = var.app_subdomain
-    full_hostname   = "${var.app_subdomain}.${var.domain_name}"
-    app_url         = "http://${var.app_subdomain}.${var.domain_name}"
-    hosted_zone_id  = data.aws_route53_zone.main.zone_id
-    dns_record_type = "A (Alias to NGINX Ingress NLB)"
-  }
-}

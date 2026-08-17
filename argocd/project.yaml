@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Project for chinmayto applications
   sourceRepos:
-    - 'https://github.com/chinmayto/terraform-aws-eks-argocd.git'
+    - 'https://github.com/spacebar1776/terraform-aws-eks-argocd.git'
   destinations:
     - namespace: '*'
       server: https://kubernetes.default.svc

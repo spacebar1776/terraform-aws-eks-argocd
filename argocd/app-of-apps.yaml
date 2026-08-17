@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/chinmayto/terraform-aws-eks-argocd.git
+    repoURL: https://github.com/spacebar1776/terraform-aws-eks-argocd.git
     targetRevision: HEAD
     path: argocd
   destination:
